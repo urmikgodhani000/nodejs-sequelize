@@ -2,9 +2,20 @@ const express = require("express");
 const Sequelize = require("sequelize");
 const app = express();
 const dotenv = require("dotenv");
-
+const passport = require("passport");
+const { initializingPassport } = require("./middleware/passportStrategy");
+const expressSession = require("express-session");
 //db coonection
 require("./config/db");
+
+//passport defualt config
+initializingPassport(passport);
+app.use(express.json());
+app.use(
+  expressSession({ secret: "secret", saveUninitialized: true, resave: true })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 //dotenv config
 dotenv.config({ path: "./config/config.env" });

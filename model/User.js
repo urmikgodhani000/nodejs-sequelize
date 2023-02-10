@@ -26,7 +26,7 @@ const userSchema = sequelize.define("user", {
     allowNull: false,
     set(value) {
       var salt = bcrypt.genSaltSync(10);
-      var hash = bcrypt.hashSync("SECRATE", salt);
+      var hash = bcrypt.hashSync(value, salt);
       this.setDataValue("password", hash);
     },
   },

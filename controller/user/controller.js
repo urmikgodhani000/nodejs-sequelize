@@ -8,14 +8,18 @@ exports.registar = async (req, res, next) => {
   }
 };
 
+exports.login = async (req, res, next) => {
+  res.json({ data: req.user });
+};
+
 exports.updateDetail = async (req, res, next) => {
   try {
     let user = await User.update(req.body, {
       where: {
-        user_id: req.params.id,
+        user_id: req.user.user_id,
       },
     });
-    user = await User.findByPk(req.params.id);
+    user = await User.findByPk(req.user.user_id);
     res.json({ data: user });
   } catch (err) {
     next(err);
@@ -26,7 +30,7 @@ exports.delteteData = async (req, res, next) => {
   try {
     let user = await User.destroy({
       where: {
-        user_id: req.params.id,
+        user_id: req.user.user_id,
       },
     });
     res.json({ data: "Data deleted!!" });

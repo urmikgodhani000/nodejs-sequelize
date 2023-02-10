@@ -1,9 +1,12 @@
 const express = require("express");
-const { registar, updateDetail, delteteData } = require("./controller");
+const { registar, updateDetail, delteteData, login } = require("./controller");
 const router = express.Router();
+const passport = require("passport");
+const isAuthCkeck = require("../../Util/isAuth");
 
 router.post("/", registar);
-router.post("/:id", updateDetail);
-router.delete("/:id", delteteData);
+router.post("/login", passport.authenticate("local"), login);
+router.put("/", isAuthCkeck, updateDetail);
+router.delete("/", isAuthCkeck, delteteData);
 
 module.exports = router;
